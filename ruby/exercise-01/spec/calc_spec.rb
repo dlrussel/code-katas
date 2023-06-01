@@ -18,11 +18,45 @@ describe Calc do
     it 'successfully returns the result of seven times two' do
       expect(Calc.new.seven.times.two).to eq(14)
     end
+
+    it 'successfully returns the result of seven times zero' do
+      expect(Calc.new.seven.times.zero).to eq(0)
+    end
   end
 
   describe '#divided_by' do
     it 'successfully returns the result of nine divided by three' do
       expect(Calc.new.nine.divided_by.three).to eq(3)
+    end
+  end
+
+  describe 'invalid format' do
+    it 'raises an exception when no mathematical operator is provided' do
+      expect {Calc.new.one.two.three}.to raise_error(RuntimeError, 'No mathematical operator provided')
+    end
+
+    it 'raises an exception when more than one mathematical operator is provided' do
+      expect {Calc.new.one.plus.minus.two}.to raise_error(RuntimeError, 'Too many mathematical operators were provided')
+    end
+
+    it 'raises an exception when an invalid mathematical operator is provided' do
+      expect {Calc.new.one.add.two}.to raise_error(RuntimeError, 'Invalid mathematical operator provided')
+    end
+
+    it 'raises an exception when an invalid operand is provided' do
+      expect {Calc.new.one.plus.cats}.to raise_error(RuntimeError, 'Invalid operand provided')
+    end
+
+    it 'raises an exception when methods are chained in an invalid order' do
+      expect {Calc.new.plus.one.two}.to raise_error(RuntimeError, 'Methods are chained in an invalid order')
+    end
+
+    it 'raises an exception when less than two operands are provided' do
+      expect {Calc.new.one.plus}.to raise_error(RuntimeError, 'Less than two operands were provided')
+    end
+
+    it 'raises an exception when more than two operands are provided' do
+      expect {Calc.new.one.plus.two.three}.to raise_error(RuntimeError, 'More than two operands were provided')
     end
   end
 end
