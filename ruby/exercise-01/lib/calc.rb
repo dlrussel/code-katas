@@ -14,35 +14,25 @@ class Calc
     nine: 9
   }
 
+  OPERATORS = {
+    plus: :+,
+    minus: :-,
+    times: :*,
+    divided_by: :/
+  }
+
   def initialize
     @operands = []
     @operator = nil
-  end
-
-  def plus
-    @operator = :+
-    self
-  end
-
-  def minus
-    @operator = :-
-    self
-  end
-
-  def times
-    @operator = :*
-    self
-  end
-
-  def divided_by
-    @operator = :/
-    self
   end
 
   def method_missing(method_name)
     if VALUES.keys.include?(method_name)
       @operands << VALUES[method_name]
       @operands.length > 1 ? solve : self
+    elsif OPERATORS.keys.include?(method_name)
+      @operator = OPERATORS[method_name]
+      self
     else
       super
     end
