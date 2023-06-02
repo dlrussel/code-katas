@@ -31,14 +31,25 @@ class Calc
       @operands << VALUES[method_name]
       @operands.length > 1 ? solve : self
     elsif OPERATORS.keys.include?(method_name)
-      @operator = OPERATORS[method_name]
-      self
+      # check if an operator has already been set to determine if multiple operators have been provided
+      if @operator.nil?
+        @operator = OPERATORS[method_name]
+        self
+      else
+        # raise an exception if more than one operator is provided
+        raise 'Too many mathematical operators were provided'
+      end
     else
       super
     end
   end
 
   def solve
-    @operands.inject(@operator)
+    if !@operator.nil?
+      @operands.inject(@operator)
+    else
+      # raise an exception if no operator is provided when trying to solve
+      raise 'No mathematical operator provided'
+    end
   end
 end
