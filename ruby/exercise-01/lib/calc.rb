@@ -50,7 +50,7 @@ class Calc
     # delete the operator from the equation
     @equation.delete(operator)
 
-    @equation.inject(operator)
+    puts "(result: #{@equation.inject(operator)})"
   end
 
   private
@@ -74,3 +74,8 @@ class Calc
     true
   end
 end
+
+Calc.new.one.plus.two
+Calc.new.five.minus.six
+Calc.new.seven.times.two
+Calc.new.nine.divided_by.three
