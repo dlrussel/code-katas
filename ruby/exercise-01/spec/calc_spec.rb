@@ -43,9 +43,9 @@ describe Calc do
       expect {Calc.new.one.add.two}.to raise_error(NoMethodError)
     end
 
-    # it 'raises an exception when methods are chained in an invalid order' do
-    #   expect {Calc.new.plus.one.two}.to raise_error(RuntimeError, 'Methods are chained in an invalid order')
-    # end
+    it 'raises an exception when methods are chained in an invalid order' do
+      expect {Calc.new.plus.one.two}.to raise_error(RuntimeError, 'Methods are chained in an invalid order')
+    end
 
     # it 'raises an exception when less than two operands are provided' do
     #   expect {Calc.new.one.plus}.to raise_error(RuntimeError, 'Less than two operands were provided')

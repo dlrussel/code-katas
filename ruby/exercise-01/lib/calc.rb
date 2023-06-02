@@ -64,15 +64,19 @@ class Calc
     # set valid_operators array by taking the intersection of the equation array and the values of the OPERATORS hash
     valid_operators = @equation & OPERATORS.values
 
-    case valid_operators.length
-    when 0
-      # raise an exception if no operator is provided when trying to solve
-      raise 'No mathematical operator provided'
-    when 1
-      true
-    else
-      # raise an exception if more than one operator is provided when trying to solve
-      raise 'Too many mathematical operators were provided'
-    end
+    # set valid_numbers array by taking the intersection of the equation array and the values of the VALUES hash
+    valid_numbers = @equation & VALUES.values
+
+    # raise an exception if the equation contains no operators
+    raise 'No mathematical operator provided' if valid_operators.empty?
+
+    # raise an exception if the equation contains more than one operator
+    raise 'Too many mathematical operators were provided' if valid_operators.length > 1
+
+    # raise an exception if the equation contains an operator before the first number
+    raise 'Methods are chained in an invalid order' if @equation.index(valid_operators[0]) < @equation.index(valid_numbers[0])
+
+    true
+
   end
 end
