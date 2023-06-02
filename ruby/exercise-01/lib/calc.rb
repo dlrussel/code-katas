@@ -1,7 +1,7 @@
 # lib/calc.rb
 
 class Calc
-  VALUES = {
+  NUMBERS = {
     zero: 0,
     one: 1,
     two: 2,
@@ -21,23 +21,18 @@ class Calc
     divided_by: :/
   }
 
+  VALID_METHODS = NUMBERS.merge(OPERATORS)
+
   def initialize
     @equation = []
 
   end
 
   def method_missing(method_name)
-    # if the method called is a valid number, add it to the equation
-    if VALUES.keys.include?(method_name)
+    # if the method called is a valid number or a valid operator, add it to the equation
+    if VALID_METHODS.keys.include?(method_name)
 
-      @equation << VALUES[method_name]
-
-      # when the equation has at least three elements, solve it
-      @equation.length < 3 ? self : solve
-
-    # if the method called is a valid operator
-    elsif OPERATORS.keys.include?(method_name)
-      @equation << OPERATORS[method_name]
+      @equation << VALID_METHODS[method_name]
 
       # when the equation has at least three elements, solve it
       @equation.length < 3 ? self : solve
@@ -64,8 +59,8 @@ class Calc
     # set valid_operators array by taking the intersection of the equation array and the values of the OPERATORS hash
     valid_operators = @equation & OPERATORS.values
 
-    # set valid_numbers array by taking the intersection of the equation array and the values of the VALUES hash
-    valid_numbers = @equation & VALUES.values
+    # set valid_numbers array by taking the intersection of the equation array and the values of the NUMBERS hash
+    valid_numbers = @equation & NUMBERS.values
 
     # raise an exception if the equation contains no operators
     raise 'No mathematical operator provided' if valid_operators.empty?
