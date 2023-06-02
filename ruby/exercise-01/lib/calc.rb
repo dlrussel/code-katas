@@ -70,13 +70,12 @@ class Calc
     # raise an exception if the equation contains no operators
     raise 'No mathematical operator provided' if valid_operators.empty?
 
-    # raise an exception if the equation contains more than one operator
-    raise 'Too many mathematical operators were provided' if valid_operators.length > 1
+    # raise an exception if the equation contains less than two numbers
+    raise 'Two operands must be provided in order to solve the equation' if valid_numbers.length < 2
 
     # raise an exception if the equation contains an operator before the first number
     raise 'Methods are chained in an invalid order' if @equation.index(valid_operators[0]) < @equation.index(valid_numbers[0])
 
     true
-
   end
 end
