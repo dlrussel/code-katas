@@ -29,19 +29,22 @@ class Calc
   end
 
   def method_missing(method_name)
-    # if the method called is a valid number or a valid operator, add it to the equation
+    # check if the method being called is a valid method otherwise raise a no method error
     if VALID_METHODS.keys.include?(method_name)
 
+      # add the method value to the equation array
       @equation << VALID_METHODS[method_name]
 
-      # when the equation has at least three elements, solve it
+      # determine if the equation is ready to be solved otherwise return self to allow for method chaining
       @equation.length < 3 ? self : solve
     else
+      # use super to raise the default no method error if the method_name is not a valid method
       super
     end
   end
 
   def solve
+    # determine if the equation is valid
     can_solve?
 
     # set the second element in the equation to operator
@@ -50,7 +53,7 @@ class Calc
     # delete the operator from the equation
     @equation.delete(operator)
 
-    puts "(result: #{@equation.inject(operator)})"
+    @equation.inject(operator)
   end
 
   private
@@ -74,8 +77,3 @@ class Calc
     true
   end
 end
-
-Calc.new.one.plus.two
-Calc.new.five.minus.six
-Calc.new.seven.times.two
-Calc.new.nine.divided_by.three
