@@ -22,34 +22,57 @@ class Calc
   }
 
   def initialize
-    @operands = []
-    @operator = nil
+    @equation = []
+
   end
 
   def method_missing(method_name)
+    # if the method called is a valid number, add it to the equation
     if VALUES.keys.include?(method_name)
-      @operands << VALUES[method_name]
-      @operands.length > 1 ? solve : self
+
+      @equation << VALUES[method_name]
+
+      # when the equation has at least three elements, solve it
+      @equation.length < 3 ? self : solve
+
+    # if the method called is a valid operator
     elsif OPERATORS.keys.include?(method_name)
-      # check if an operator has already been set to determine if multiple operators have been provided
-      if @operator.nil?
-        @operator = OPERATORS[method_name]
-        self
-      else
-        # raise an exception if more than one operator is provided
-        raise 'Too many mathematical operators were provided'
-      end
+      @equation << OPERATORS[method_name]
+
+      # when the equation has at least three elements, solve it
+      @equation.length < 3 ? self : solve
     else
       super
     end
   end
 
   def solve
-    if !@operator.nil?
-      @operands.inject(@operator)
-    else
+    can_solve?
+
+    # set the second element in the equation to operator
+    operator = @equation[1]
+
+    # delete the operator from the equation
+    @equation.delete(operator)
+
+    @equation.inject(operator)
+  end
+
+  private
+
+  def can_solve?
+    # set valid_operators array by taking the intersection of the equation array and the values of the OPERATORS hash
+    valid_operators = @equation & OPERATORS.values
+
+    case valid_operators.length
+    when 0
       # raise an exception if no operator is provided when trying to solve
       raise 'No mathematical operator provided'
+    when 1
+      true
+    else
+      # raise an exception if more than one operator is provided when trying to solve
+      raise 'Too many mathematical operators were provided'
     end
   end
 end
