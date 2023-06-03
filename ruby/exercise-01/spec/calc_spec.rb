@@ -28,6 +28,10 @@ describe Calc do
     it 'successfully returns the result of nine divided by three' do
       expect(Calc.new.nine.divided_by.three).to eq(3)
     end
+
+    it 'raises an exception when attempting to divide by zero' do
+      expect {Calc.new.nine.divided_by.zero}.to raise_error(ZeroDivisionError, 'Cannot divide by zero')
+    end
   end
 
   describe 'invalid format' do

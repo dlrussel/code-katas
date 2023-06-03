@@ -53,7 +53,12 @@ class Calc
     # delete the operator from the equation
     @equation.delete(operator)
 
-    @equation.inject(operator)
+    # rescue zero division error and raise a custom error message to the user
+    begin
+      @equation.inject(operator)
+    rescue ZeroDivisionError
+      raise ZeroDivisionError, 'Cannot divide by zero'
+    end
   end
 
   private
