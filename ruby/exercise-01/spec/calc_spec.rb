@@ -1,5 +1,5 @@
 # spec/calc_spec.rb
-require 'calc'
+require_relative '../lib/calc.rb'
 
 describe Calc do
   describe '#plus' do
